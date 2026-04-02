@@ -9,10 +9,13 @@
 
 <body>
 
-    <div class="container-main">
-        <h1>Gráfico</h1>
-        <div class="grafico-linha">
+    <div style="display: flex; align-self: center; justify-content: center; flex-direction: column; ">
+        <h1>Graphics</h1>
+        <div>
             <canvas id="sensorAnalogico"></canvas>
+        </div>
+        <div style="width: 100%;">
+            <canvas id="sensorDigital"></canvas>
         </div>
     </div>
 
@@ -21,9 +24,34 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Temperatura',
-                    borderColor: '#4e0e0e',
-                    backgroundColor: '#4e0e0e'
+                    label: 'Analogico',
+                    borderColor: '#63B1BC',
+                    backgroundColor: '#ED145B'
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '(%)'
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            }
+        });
+
+        var sensorDigital = new Chart(document.getElementById('sensorDigital').getContext('2d'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Digital',
+                    borderColor: '#63B1BC',
+                    backgroundColor: '#0762C8'
                 }]
             },
             options: {
@@ -75,7 +103,8 @@
         }
 
         setInterval(() => {
-            obterDados(sensorAnalogico, 'Analógico');
+            obterDados(sensorAnalogico, 'analogico');
+            obterDados(sensorDigital, 'digital');
         }, 1000);
 
     </script>
