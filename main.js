@@ -12,8 +12,7 @@ const HABILITAR_OPERACAO_INSERIR = false;
 
 // função para comunicação serial
 const serial = async (
-    valoresSensorAnalogico,
-    valoresSensorDigital,
+    valorSensorAnalogico,
 ) => {
 
     // conexão com o banco de dados MySQL
@@ -55,8 +54,8 @@ const serial = async (
         const sensorAnalogico = parseFloat(valores[1]);
 
         // armazena os valores dos sensores nos arrays correspondentes
-        valoresSensorAnalogico.push(sensorAnalogico);
-        valoresSensorDigital.push(sensorDigital);
+       // valoresSensorAnalogico.push(sensorAnalogico);
+        valorSensorAnalogico.push(sensorDigital);
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
@@ -80,8 +79,7 @@ const serial = async (
 
 // função para criar e configurar o servidor web
 const servidor = (
-    valoresSensorAnalogico,
-    valoresSensorDigital
+    valorSensorAnalogico
 ) => {
     const app = express();
 
@@ -98,29 +96,24 @@ const servidor = (
     });
 
     // define os endpoints da API para cada tipo de sensor
-    app.get('/sensores/analogico', (_, response) => {
-        return response.json(valoresSensorAnalogico);
-    });
     app.get('/sensores/digital', (_, response) => {
-        return response.json(valoresSensorDigital);
+        return response.json(valorSensorAnalogico);
     });
 }
 
 // função principal assíncrona para iniciar a comunicação serial e o servidor web
 (async () => {
     // arrays para armazenar os valores dos sensores
-    const valoresSensorAnalogico = [];
-    const valoresSensorDigital = [];
+    //const valoresSensorAnalogico = [];
+    const valorSensorAnalogico = [];
 
     // inicia a comunicação serial
     await serial(
-        valoresSensorAnalogico,
-        valoresSensorDigital
+        valorSensorAnalogico
     );
 
     // inicia o servidor web
     servidor(
-        valoresSensorAnalogico,
-        valoresSensorDigital
+        valorSensorAnalogico
     );
 })();
