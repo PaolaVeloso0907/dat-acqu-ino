@@ -12,15 +12,14 @@ const HABILITAR_OPERACAO_INSERIR = true;
 
 // função para comunicação serial
 const serial = async (
-    valoresSensorAnalogico,
-    valoresSensorDigital,
+    valoresSensorAnalogico
 ) => {
 
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
             host: 'localhost',
-            user: 'root',
+            user: 'user_wineView',
             password: '123456',
             database: 'wineview_temp',
             port: 3306
@@ -80,8 +79,7 @@ const serial = async (
 
 // função para criar e configurar o servidor web
 const servidor = (
-    valoresSensorAnalogico,
-    valoresSensorDigital
+    valoresSensorAnalogico
 ) => {
     const app = express();
 
@@ -110,17 +108,14 @@ const servidor = (
 (async () => {
     // arrays para armazenar os valores dos sensores
     const valoresSensorAnalogico = [];
-    const valoresSensorDigital = [];
 
     // inicia a comunicação serial
     await serial(
         valoresSensorAnalogico,
-        valoresSensorDigital
     );
 
     // inicia o servidor web
     servidor(
         valoresSensorAnalogico,
-        valoresSensorDigital
     );
 })();
